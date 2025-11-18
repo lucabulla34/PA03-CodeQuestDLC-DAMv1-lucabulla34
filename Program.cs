@@ -29,7 +29,7 @@
         const string MsgProgramEnd = "Ending program.";
 
         Console.WriteLine(MsgInput);
-        int poder = 1, randomHours = 0, menu = 0;
+        int poder = 1, randomHours, menu, totalHours = 0;
         bool end = false, isMenu;
         string wizardName = Console.ReadLine(), wizardLevel, capitalizedName;
 
@@ -50,7 +50,8 @@
                         {
                             randomHours = rand.Next(0, 25);
                             poder += rand.Next(1, 11);
-                            Console.Write(MsgDays, day, capitalizedName, randomHours, poder);
+                            totalHours += randomHours;
+                            Console.Write(MsgDays, day, capitalizedName, totalHours, poder);
                             Console.WriteLine();
                         }
                         if (poder < 20)
