@@ -234,6 +234,7 @@ public class Program
                                             else Console.Write($"{userOutput[0]} ");
                                         }
                                         Console.WriteLine();
+
                                     }
                                 }
                                 else Console.WriteLine(MsgError);
