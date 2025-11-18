@@ -272,6 +272,7 @@ public class Program
 
                     case 4:
                         Console.Write(MsgInventoryContains);
+
                         if (inventory[0] == null)
                         {
                             Console.WriteLine(MsgEmptyInventory);
@@ -280,7 +281,7 @@ public class Program
                         {
                             for (int i = 0; i < inventory.Length; i++)
                             {
-                                Console.WriteLine($"{inventory[i]}");
+                                Console.WriteLine($"{inventory[i]}"); //Adds the items bought in the shop to current inventory.
                             }
                         }
                         break;
