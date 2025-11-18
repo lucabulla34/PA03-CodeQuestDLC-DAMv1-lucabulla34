@@ -7,3 +7,7 @@
 /CodeQuest.csproj
 /CodeQuest.sln
 /obj
+/bin/Debug/net9.0
+/.vs
+*.csproj
+*.sln
