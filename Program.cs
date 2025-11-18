@@ -14,7 +14,7 @@ public class Program
             "6. Show attacks by LVL (New!)\r\n" +
             "7. Decode ancient Scroll (New!)\r\n" +
             "0. Exit game\r\n" +
-            "Choose an option (1-7) - (0) to exit:"; 
+            "Choose an option (1-7) - (0) to exit:";
         const string MsgMenuName = "===== MAIN MENU - CODEQUEST =====\r\n" +
             "===== Welcome, {0} the {1} with level {2} =====\r\n" +
             "1. Train your wizard\r\n" +
@@ -52,6 +52,7 @@ public class Program
         const string MonsterDefeated = "The {0} has been defeated.";
         const string LvlUp = "You've leveled up! You're now level {0}.";
         const string KeyToContinue = "Press any key to roll the dice again...";
+        const string TrainingComplete = "Training complete! {0} has achieved a total power of {1} points and earned the title '{2}'";
         const string MsgInvalidOption = "Invalid option. Try again!";
         const string MsgProgramEnd = "Ending program.";
         const string DiceOne = "   ________\r\n  /       /|   \r\n /_______/ |\r\n |       | |\r\n |   o   | /\r\n |       |/ \r\n '-------'\r\n";
@@ -60,16 +61,17 @@ public class Program
             GiantSpiderHP = 18, IronGolemHP = 15, LostNecromancerHP = 20, AncientDragonHP = 50;
 
         Console.WriteLine(MsgInput);
-        int poder = 1, randomHours, menu, dice, wizardLevel = 1, randomMonster;
+        int poder = 1, randomHours, menu, dice, totalHours = 0, wizardLevel = 1, randomMonster;
         
         
         bool end = false, isMenu;
 
-        string wizardName, wizardTitle = TitleOne;
+        
         
         int[] healthpoints = { WanderSkeletonHP, ForestGoblinHP, GreenSlimeHP, EmberWolfHP,
         GiantSpiderHP, IronGolemHP, LostNecromancerHP, AncientDragonHP};
-        
+        string wizardName = Console.ReadLine(), wizardTitle = TitleOne;
+
         string[] monsters = {MonsterSkeleton, MonsterForestGoblin, MonsterGreenSlime, MonsterEmberWolf,
         MonsterGiantSpider, MonsterIronGolem, MonsterLostNecromancer, MonsterAncientDragon};
 
@@ -95,7 +97,8 @@ public class Program
                         {
                             randomHours = rand.Next(0, 25);
                             poder += rand.Next(1, 11);
-                            Console.Write(MsgDays, day, wizardName, randomHours, poder);
+                            totalHours += randomHours;
+                            Console.Write(MsgDays, day, capitalizedName, totalHours, poder);
                             Console.WriteLine();
                         }
                         if (poder < 20)
@@ -123,6 +126,7 @@ public class Program
                             Console.WriteLine(MsgLvlFive);
                             wizardTitle = TitleFive;
                         }
+                        Console.WriteLine(TrainingComplete, wizardName, wizardLevel, wizardTitle);
                         break;
 
 
