@@ -30,6 +30,8 @@ public class Program
             "0. Exit game\r\n" +
             "Choose an option (1-7) - (0) to exit:";
         const string MsgInput = "Hi! Input your wizard's name: ";
+
+        //1
         const string MsgDays = "day {0} -> {1}, ja has meditat {2} hores i el teu poder ara és de {3} punts.";
         const string MsgLvlOne = "Repeteixes a segona convocatoria.";
         const string MsgLvlTwo = "Encara confons la vara amb una cullera.";
@@ -42,6 +44,8 @@ public class Program
         const string TitleFour = "Elarion de les Brases";
         const string TitleFive = "ITB-Wizard el Gris";
         const string TrainingComplete = "Training complete! {0} has achieved a total power of {1} points and earned the title '{2}'";
+
+        //2
         const string MonsterSkeleton = "Wandering Skeleton 💀";
         const string MonsterForestGoblin = "Forest Goblin 👹";
         const string MonsterGreenSlime = "Green Slime 🟢";
@@ -51,44 +55,64 @@ public class Program
         const string MonsterLostNecromancer = "Lost Necromancer 🧝‍♂️";
         const string MonsterAncientDragon = "Ancient Dragon 🐉";
         const string MonsterAppearance = "A wild {0} appears! Rolling dice to determine the outcome of the battle...";
-        const string MonsterHP = "The {0} has {1} HP.";
         const string DiceRoll = "You rolled a {0}!";
+        const string MonsterHP = "The {0} has {1} HP.";
         const string MonsterDefeated = "The {0} has been defeated.";
         const string LvlUp = "You've leveled up! You're now level {0}.";
+
+        //3
         const string KeyToContinue = "Press any key to roll the dice again...";
         const string ChooseX = "Insert the X axis: ";
         const string ChooseY = "Insert the Y axis: ";
         const string MsgCoinFound = "You mined at [{0}, {1}] and found a coin which contained {2} bits! You now have {3} attempts.";
         const string MsgNotFound = "You mined at [{0}, {1}] and didn't find anything. You now have {2} attempts.";
+
+        //4
+        const string MsgInventoryContains = "Your inventory contains:\n";
+        const string MsgEmptyInventory = "Your inventory is empty.";
+
+        //5
+        const string MsgShop = "You chose to buy items. \nYou have {0} bits available.\nObjecte \t\t\t\tPreu (bits)\n";
+        const string MsgSelectItem = "Select the item you wish to buy (1 - 5) (0 to exit):";
+        const string MsgItemBought = "You have purchased: {0} for {1} bits. Bits remaining: {2}";
+        const string MsgNotEnoughFunds = "You haven't got enough bits for this purchase.";
+
+        //generic
         const string MsgError = "Invalid option. Try again!";
         const string MsgProgramEnd = "Ending program.";
-        const string DiceOne = "   ________\r\n  /       /|   \r\n /_______/ |\r\n |       | |\r\n |   o   | /\r\n |       |/ \r\n '-------'\r\n";
+
 
         const int WanderSkeletonHP = 3, ForestGoblinHP = 5, GreenSlimeHP = 10, EmberWolfHP = 11,
             GiantSpiderHP = 18, IronGolemHP = 15, LostNecromancerHP = 20, AncientDragonHP = 50;
 
+
+
         Console.WriteLine(MsgInput);
-        int poder = 1, randomHours, menu, dice, totalHours = 0, wizardLevel = 1, randomMonster, attempts = 5, yAxis, xAxis, bits;
+        int poder = 1, randomHours, menu, dice, totalHours = 0, wizardLevel = 1, randomMonster, attempts = 5, yAxis, xAxis, bits,
+            totalBits = 0;
 
 
-        bool end = false, isMenu;
+        bool end = false, isMenu, itemAdded = false;
+
+        string wizardName = "Name", wizardTitle = TitleOne;
 
 
         int[] healthpoints = { WanderSkeletonHP, ForestGoblinHP, GreenSlimeHP, EmberWolfHP,
-        GiantSpiderHP, IronGolemHP, LostNecromancerHP, AncientDragonHP};
+        GiantSpiderHP, IronGolemHP, LostNecromancerHP, AncientDragonHP}, itemsPrice = { 30, 10, 50, 40, 20 };
 
-
-        string wizardName = Console.ReadLine(), wizardTitle = TitleOne;
-
+        bool[] itemPresent = new bool[6];
 
         string[] monsters = {MonsterSkeleton, MonsterForestGoblin, MonsterGreenSlime, MonsterEmberWolf,
         MonsterGiantSpider, MonsterIronGolem, MonsterLostNecromancer, MonsterAncientDragon},
         userOutput = { "➖", "🪙", "❌" },
-        treasures = { "Empty", "Coin" };
+        treasures = { "Empty", "Coin" },
+        items = { "Iron Dagger 🗡️", "Healing Potion ⚗️", "Ancient Key 🗝️", "Crossbow 🏹", "Metal Shield 🛡️" },
+        inventory = new string[items.Length];
+        ;
 
 
-
-        wizardName = wizardName.Substring(0, 1).ToUpper() + wizardName.Substring(1, wizardName.Length - 1).ToLower(); // Capitalitza correctament el nom, s'escrigui com s'escrigui
+        wizardName = Console.ReadLine();
+        wizardName = wizardName.Substring(0, 1).ToUpper() + wizardName.Substring(1, wizardName.Length - 1).ToLower(); // This will properly capitalize the message, no matter how it's written.
         while (!end)
         {
             if (wizardName != "")
@@ -138,8 +162,8 @@ public class Program
                         else if (poder >= 40)
                         {
                             Console.WriteLine(MsgLvlFive);
+                            wizardTitle = TitleFive;
                             Console.WriteLine(TrainingComplete, wizardName, poder, wizardTitle);
-                            Console.WriteLine(TrainingComplete, wizardName, wizardLevel, wizardTitle);
                         }
                         break;
 
@@ -179,6 +203,7 @@ public class Program
 
 
                     case 3:
+                        attempts = 5;
                         string[,] invisibleMap = new string[ROWS, COLS], userMap = new string[ROWS, COLS];
                         Console.WriteLine("0 1 2 3 4");
                         for (int i = 0; i < invisibleMap.GetLength(0); i++)
@@ -206,6 +231,7 @@ public class Program
                                     if (invisibleMap[xAxis, yAxis] == treasures[1])
                                     {
                                         bits = rand.Next(5, 51);
+                                        totalBits += bits;
                                         userMap[xAxis, yAxis] = userOutput[1];
                                         attempts--;
                                         Console.WriteLine(MsgCoinFound, xAxis, yAxis, bits, attempts);
@@ -245,12 +271,53 @@ public class Program
 
 
                     case 4:
-
+                        Console.Write(MsgInventoryContains);
+                        if (inventory[0] == null)
+                        {
+                            Console.WriteLine(MsgEmptyInventory);
+                        }
+                        else
+                        {
+                            for (int i = 0; i < inventory.Length; i++)
+                            {
+                                Console.WriteLine($"{inventory[i]}");
+                            }
+                        }
                         break;
 
 
                     case 5:
-
+                        int itemBought;
+                        bool isValid;
+                        itemAdded = false;
+                        Console.WriteLine(MsgShop, totalBits);
+                        for (int i = 0; i < items.Length; i++)
+                        {
+                            Console.Write($"{items[i]}     \t\t\t\t{itemsPrice[i]}\n");
+                        }
+                        Console.WriteLine(MsgSelectItem);
+                        isValid = Int32.TryParse(Console.ReadLine(), out itemBought);
+                        if (isValid && itemBought < 6)
+                        {
+                            if (totalBits - itemsPrice[itemBought - 1] > 0) // User can buy the item
+                            {
+                                totalBits = totalBits - itemsPrice[itemBought - 1];
+                                Console.WriteLine(MsgItemBought, items[itemBought - 1], itemsPrice[itemBought - 1], totalBits);
+                                for (int i = 0; (i < inventory.Length) && !itemAdded; i++)
+                                {
+                                    if (!itemPresent[i]) {
+                                        itemPresent[i] = true;
+                                        inventory[i] = items[itemBought - 1];
+                                        itemAdded = true;
+                                    }
+                                }
+                            }
+                            else Console.WriteLine(MsgNotEnoughFunds);
+                        }
+                        if (!isValid)
+                        {
+                            //falta poner el caso de fallo
+                        }
                         break;
 
 
