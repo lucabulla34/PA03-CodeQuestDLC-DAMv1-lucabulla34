@@ -30,7 +30,6 @@
         const string MsgProgramEnd = "Ending program.";
 
         Console.WriteLine(MsgInput);
-
         int poder = 1, randomHours, menu, totalHours = 0, wizardLevel = 1;
         bool end = false, isMenu;
         string wizardName = Console.ReadLine(), wizardTitle = "", capitalizedName;
