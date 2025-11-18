@@ -11,3 +11,5 @@
 /.vs
 *.csproj
 *.sln
+/CodeQuest.csproj
+/CodeQuest.sln
