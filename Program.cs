@@ -7,6 +7,7 @@ public class Program
         Console.OutputEncoding = System.Text.Encoding.UTF8; // Solución para que la consola muestre los emojis
         Console.InputEncoding = System.Text.Encoding.UTF8;
         Random rand = new Random();
+        const int ROWS = 5, COLS = 5;
         const string MsgMenu = "===== MAIN MENU - CODEQUEST =====\r\n\r\n" +
             "1. Train your wizard\r\n" +
             "2. Increase LVL (Update)\r\n" +
@@ -63,7 +64,7 @@ public class Program
             GiantSpiderHP = 18, IronGolemHP = 15, LostNecromancerHP = 20, AncientDragonHP = 50;
 
         Console.WriteLine(MsgInput);
-        int poder = 1, randomHours, menu, dice, totalHours = 0, wizardLevel = 1, randomMonster;
+        int poder = 1, randomHours, menu, dice, totalHours = 0, wizardLevel = 1, randomMonster, attempts = 5;
         
         
         bool end = false, isMenu;
@@ -77,7 +78,10 @@ public class Program
 
 
         string[] monsters = {MonsterSkeleton, MonsterForestGoblin, MonsterGreenSlime, MonsterEmberWolf,
-        MonsterGiantSpider, MonsterIronGolem, MonsterLostNecromancer, MonsterAncientDragon};
+        MonsterGiantSpider, MonsterIronGolem, MonsterLostNecromancer, MonsterAncientDragon}, 
+        userAttempts = {"➖", "🪙", "❌" },
+        treasures = { "Empty", "Coin" };
+        
 
 
         wizardName = wizardName.Substring(0, 1).ToUpper() + wizardName.Substring(1, wizardName.Length - 1).ToLower(); // Capitalitza correctament el nom, s'escrigui com s'escrigui
@@ -170,7 +174,19 @@ public class Program
 
 
                     case 3:
-
+                        string[,] invisibleMap = new string[ROWS, COLS], userMap = new string[ROWS, COLS];
+                        Console.WriteLine("0 1 2 3 4");
+                        for (int i = 0; i < invisibleMap.GetLength(0); i++)
+                        {
+                            Console.Write(i);
+                            for (int j = 0; j < invisibleMap.GetLength(1); j++)
+                            {
+                                invisibleMap[i, j] = treasures[rand.Next(0, treasures.Length)];
+                                Console.Write($"{userAttempts[0]} ");
+                            }
+                            Console.WriteLine();
+                        }
+                        
                         break;
 
 
