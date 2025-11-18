@@ -1,9 +1,13 @@
 ﻿################################################################################
-# Este archivo .gitignore ha sido creado automáticamente por Microsoft(R) Visual Studio.
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/.vs/CodeQuest
+/.vs
 /bin/Debug/net9.0
 /CodeQuest.csproj
 /CodeQuest.sln
 /obj
+*.csproj
+*.sln
+/CodeQuest.csproj
+/CodeQuest.sln
