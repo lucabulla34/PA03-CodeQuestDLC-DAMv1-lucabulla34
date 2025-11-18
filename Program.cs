@@ -40,7 +40,6 @@ public class Program
         const string TitleThree = "Arka Nullpointer";
         const string TitleFour = "Elarion de les Brases";
         const string TitleFive = "ITB-Wizard el Gris";
-        const string MsgInput = "Hi! Input your wizard's name: ";
         const string MonsterSkeleton = "Wandering Skeleton 💀";
         const string MonsterForestGoblin = "Forest Goblin 👹";
         const string MonsterGreenSlime = "Green Slime 🟢";
@@ -100,7 +99,6 @@ public class Program
                     case 1:
 
 
-=========
                         for (int day = 1; day <= 5; day++)
                         {
                             randomHours = rand.Next(0, 25);
@@ -132,9 +130,9 @@ public class Program
                         else if (poder >= 40)
                         {
                             Console.WriteLine(MsgLvlFive);
-                        Console.WriteLine(TrainingComplete, wizardName, poder, wizardTitle);
-                        Console.WriteLine(TrainingComplete, wizardName, wizardLevel, wizardTitle);
->>>>>>>>> Temporary merge branch 2
+                            Console.WriteLine(TrainingComplete, wizardName, poder, wizardTitle);
+                            Console.WriteLine(TrainingComplete, wizardName, wizardLevel, wizardTitle);
+                        }
                         break;
 
 
