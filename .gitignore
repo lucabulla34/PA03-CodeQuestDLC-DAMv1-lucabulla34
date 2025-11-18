@@ -7,3 +7,7 @@
 /CodeQuest.csproj
 /CodeQuest.sln
 /obj
+*.csproj
+*.sln
+/CodeQuest.csproj
+/CodeQuest.sln
