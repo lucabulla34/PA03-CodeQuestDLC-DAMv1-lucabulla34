@@ -41,6 +41,7 @@ public class Program
         const string TitleThree = "Arka Nullpointer";
         const string TitleFour = "Elarion de les Brases";
         const string TitleFive = "ITB-Wizard el Gris";
+        const string TrainingComplete = "Training complete! {0} has achieved a total power of {1} points and earned the title '{2}'";
         const string MonsterSkeleton = "Wandering Skeleton 💀";
         const string MonsterForestGoblin = "Forest Goblin 👹";
         const string MonsterGreenSlime = "Green Slime 🟢";
@@ -55,8 +56,11 @@ public class Program
         const string MonsterDefeated = "The {0} has been defeated.";
         const string LvlUp = "You've leveled up! You're now level {0}.";
         const string KeyToContinue = "Press any key to roll the dice again...";
-        const string TrainingComplete = "Training complete! {0} has achieved a total power of {1} points and earned the title '{2}'";
-        const string MsgInvalidOption = "Invalid option. Try again!";
+        const string ChooseX = "Insert the X axis: ";
+        const string ChooseY = "Insert the Y axis: ";
+        const string MsgCoinFound = "You mined at [{0}, {1}] and found a coin which contained {2} bits! You now have {3} attempts.";
+        const string MsgNotFound = "You mined at [{0}, {1}] and didn't find anything. You now have {2} attempts.";
+        const string MsgError = "Invalid option. Try again!";
         const string MsgProgramEnd = "Ending program.";
         const string DiceOne = "   ________\r\n  /       /|   \r\n /_______/ |\r\n |       | |\r\n |   o   | /\r\n |       |/ \r\n '-------'\r\n";
 
@@ -64,12 +68,12 @@ public class Program
             GiantSpiderHP = 18, IronGolemHP = 15, LostNecromancerHP = 20, AncientDragonHP = 50;
 
         Console.WriteLine(MsgInput);
-        int poder = 1, randomHours, menu, dice, totalHours = 0, wizardLevel = 1, randomMonster, attempts = 5;
-        
-        
+        int poder = 1, randomHours, menu, dice, totalHours = 0, wizardLevel = 1, randomMonster, attempts = 5, yAxis, xAxis, bits;
+
+
         bool end = false, isMenu;
 
-        
+
         int[] healthpoints = { WanderSkeletonHP, ForestGoblinHP, GreenSlimeHP, EmberWolfHP,
         GiantSpiderHP, IronGolemHP, LostNecromancerHP, AncientDragonHP};
 
@@ -78,10 +82,10 @@ public class Program
 
 
         string[] monsters = {MonsterSkeleton, MonsterForestGoblin, MonsterGreenSlime, MonsterEmberWolf,
-        MonsterGiantSpider, MonsterIronGolem, MonsterLostNecromancer, MonsterAncientDragon}, 
-        userAttempts = {"➖", "🪙", "❌" },
+        MonsterGiantSpider, MonsterIronGolem, MonsterLostNecromancer, MonsterAncientDragon},
+        userOutput = { "➖", "🪙", "❌" },
         treasures = { "Empty", "Coin" };
-        
+
 
 
         wizardName = wizardName.Substring(0, 1).ToUpper() + wizardName.Substring(1, wizardName.Length - 1).ToLower(); // Capitalitza correctament el nom, s'escrigui com s'escrigui
@@ -161,7 +165,8 @@ public class Program
                                 Console.ReadKey();
                             }
 
-                            else if (healthpoints[randomMonster] <= 0) {
+                            else if (healthpoints[randomMonster] <= 0)
+                            {
                                 Console.WriteLine(MonsterDefeated, monsters[randomMonster]);
                                 wizardLevel++;
                                 Console.WriteLine(LvlUp, wizardLevel);
@@ -169,7 +174,7 @@ public class Program
                         }
 
                         healthpoints[randomMonster] = tempHP; // Variables to restore enemy's HP once it is defeated, so that if the player faces it again, it won't be at 0 HP.
-                        
+
                         break;
 
 
@@ -182,11 +187,59 @@ public class Program
                             for (int j = 0; j < invisibleMap.GetLength(1); j++)
                             {
                                 invisibleMap[i, j] = treasures[rand.Next(0, treasures.Length)];
-                                Console.Write($"{userAttempts[0]} ");
+                                Console.Write($"{userOutput[0]} ");
                             }
                             Console.WriteLine();
                         }
-                        
+
+                        do
+                        {
+                            Console.Write($"{ChooseX} \n");
+                            bool isAxis = Int32.TryParse(Console.ReadLine(), out xAxis);
+
+                            if (isAxis && xAxis < 5)
+                            {
+                                Console.Write($"{ChooseY} \n");
+                                isAxis = Int32.TryParse(Console.ReadLine(), out yAxis);
+                                if (isAxis && yAxis < 5)
+                                {
+                                    if (invisibleMap[xAxis, yAxis] == treasures[1])
+                                    {
+                                        bits = rand.Next(5, 51);
+                                        userMap[xAxis, yAxis] = userOutput[1];
+                                        attempts--;
+                                        Console.WriteLine(MsgCoinFound, xAxis, yAxis, bits, attempts);
+                                        invisibleMap[xAxis, yAxis] = treasures[0]; // This line prevents the same spot from being exploited twice.
+                                    }
+                                    else if (invisibleMap[xAxis, yAxis] == treasures[0])
+                                    {
+                                        userMap[xAxis, yAxis] = userOutput[2];
+                                        attempts--;
+                                        Console.WriteLine(MsgNotFound, xAxis, yAxis, attempts);
+                                    }
+                                    Console.WriteLine("0 1 2 3 4");
+                                    for (int i = 0; i < invisibleMap.GetLength(0); i++)
+                                    {
+                                        Console.Write(i);
+                                        for (int j = 0; j < invisibleMap.GetLength(1); j++)
+                                        {
+                                            if (userMap[i, j] == userOutput[1])
+                                            {
+                                                Console.Write($"{userOutput[1]} ");
+                                            }
+                                            else if (userMap[i, j] == userOutput[2])
+                                            {
+                                                Console.Write($"{userOutput[2]} ");
+                                            }
+                                            else Console.Write($"{userOutput[0]} ");
+                                        }
+                                        Console.WriteLine();
+                                    }
+                                }
+                                else Console.WriteLine(MsgError);
+                            }
+                            else Console.WriteLine(MsgError);
+                        } while (attempts > 0);
                         break;
 
 
@@ -216,7 +269,7 @@ public class Program
                         break;
                 }
             }
-            else Console.WriteLine(MsgInvalidOption);
+            else Console.WriteLine(MsgError);
         }
     }
 }
