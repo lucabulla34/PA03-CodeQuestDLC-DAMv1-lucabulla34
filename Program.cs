@@ -316,7 +316,7 @@ public class Program
                         }
                         if (!isValid)
                         {
-                            //falta poner el caso de fallo
+                            Console.WriteLine(MsgError);
                         }
                         break;
 
