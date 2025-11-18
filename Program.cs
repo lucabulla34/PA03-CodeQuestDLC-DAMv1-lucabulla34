@@ -65,7 +65,7 @@ public class Program
         
         bool end = false, isMenu;
 
-        string wizardName, wizardTitle = "";
+        string wizardName, wizardTitle = TitleOne;
         
         int[] healthpoints = { WanderSkeletonHP, ForestGoblinHP, GreenSlimeHP, EmberWolfHP,
         GiantSpiderHP, IronGolemHP, LostNecromancerHP, AncientDragonHP};
@@ -77,7 +77,7 @@ public class Program
         wizardName = wizardName.Substring(0, 1).ToUpper() + wizardName.Substring(1, wizardName.Length - 1).ToLower(); // Capitalitza correctament el nom, s'escrigui com s'escrigui
         while (!end)
         {
-            if (wizardLevel > 1)
+            if (wizardName != "")
             {
                 Console.WriteLine(MsgMenuName, wizardName, wizardTitle, wizardLevel);
             }
