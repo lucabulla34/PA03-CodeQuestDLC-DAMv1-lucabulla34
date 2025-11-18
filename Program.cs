@@ -4,6 +4,8 @@ public class Program
 {
     public static void Main()
     {
+        Console.OutputEncoding = System.Text.Encoding.UTF8; // Solución para que la consola muestre los emojis
+        Console.InputEncoding = System.Text.Encoding.UTF8;
         Random rand = new Random();
         const string MsgMenu = "===== MAIN MENU - CODEQUEST =====\r\n\r\n" +
             "1. Train your wizard\r\n" +
@@ -67,15 +69,17 @@ public class Program
         bool end = false, isMenu;
 
         
-        
         int[] healthpoints = { WanderSkeletonHP, ForestGoblinHP, GreenSlimeHP, EmberWolfHP,
         GiantSpiderHP, IronGolemHP, LostNecromancerHP, AncientDragonHP};
+
+
         string wizardName = Console.ReadLine(), wizardTitle = TitleOne;
+
 
         string[] monsters = {MonsterSkeleton, MonsterForestGoblin, MonsterGreenSlime, MonsterEmberWolf,
         MonsterGiantSpider, MonsterIronGolem, MonsterLostNecromancer, MonsterAncientDragon};
 
-        wizardName = Console.ReadLine();
+
         wizardName = wizardName.Substring(0, 1).ToUpper() + wizardName.Substring(1, wizardName.Length - 1).ToLower(); // Capitalitza correctament el nom, s'escrigui com s'escrigui
         while (!end)
         {
@@ -98,7 +102,7 @@ public class Program
                             randomHours = rand.Next(0, 25);
                             poder += rand.Next(1, 11);
                             totalHours += randomHours;
-                            Console.Write(MsgDays, day, capitalizedName, totalHours, poder);
+                            Console.Write(MsgDays, day, wizardName, totalHours, poder);
                             Console.WriteLine();
                         }
                         if (poder < 20)
@@ -126,31 +130,40 @@ public class Program
                             Console.WriteLine(MsgLvlFive);
                             wizardTitle = TitleFive;
                         }
-                        Console.WriteLine(TrainingComplete, wizardName, wizardLevel, wizardTitle);
+                        Console.WriteLine(TrainingComplete, wizardName, poder, wizardTitle);
                         break;
 
 
                     case 2:
                         randomMonster = rand.Next(0, monsters.Length);
+                        int tempHP = healthpoints[randomMonster];
+
                         Console.WriteLine(MonsterAppearance, monsters[randomMonster]);
+
                         while (healthpoints[randomMonster] > 0)
                         {
                             Console.WriteLine(MonsterHP, monsters[randomMonster], healthpoints[randomMonster]);
                             dice = rand.Next(1, 7);
+
                             Console.WriteLine(DiceRoll, dice);
                             healthpoints[randomMonster] -= dice;
+
                             if (healthpoints[randomMonster] > 0)
                             {
                                 Console.WriteLine(MonsterHP, monsters[randomMonster], healthpoints[randomMonster]);
                                 Console.WriteLine(KeyToContinue);
                                 Console.ReadKey();
                             }
+
                             else if (healthpoints[randomMonster] <= 0) {
                                 Console.WriteLine(MonsterDefeated, monsters[randomMonster]);
                                 wizardLevel++;
                                 Console.WriteLine(LvlUp, wizardLevel);
                             }
                         }
+
+                        healthpoints[randomMonster] = tempHP; // Variables to restore enemy's HP once it is defeated, so that if the player faces it again, it won't be at 0 HP.
+                        
                         break;
 
 
