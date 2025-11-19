@@ -299,7 +299,7 @@ public class Program
                         isValid = Int32.TryParse(Console.ReadLine(), out itemBought);
                         if (isValid && itemBought < 6)
                         {
-                            if (totalBits - itemsPrice[itemBought - 1] > 0) // User can buy the item
+                            if (totalBits - itemsPrice[itemBought - 1] >= 0) // User can buy the item
                             {
                                 totalBits = totalBits - itemsPrice[itemBought - 1];
                                 Console.WriteLine(MsgItemBought, items[itemBought - 1], itemsPrice[itemBought - 1], totalBits);
