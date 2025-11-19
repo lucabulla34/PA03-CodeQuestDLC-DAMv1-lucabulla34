@@ -333,12 +333,15 @@ public class Program
 
                     case 6:
                         Console.Write(MsgAttacks, wizardLevel);
-                        for (int i = 0; (i < levels.Length) || (wizardLevel > 5); i++)
+                        for (int i = 0; (i <= levels.Length) || (wizardLevel >= 5); i++)
                         {
                             for (int j = 0; (j < levels[i].Length) && (i == wizardLevel - 1); j++)
-                            {
+                            {                   //TENGO QUE QUITAR
+                                                //ESTA VARIABLE
+                                                //SUSTITUIRLA POR ITERADORES?????
                                 if (wizardLevel > 5)
                                 {
+                                    i = 4;
                                     Console.Write($"- {levels[levels[i].Length - 1][j]}\n");
                                 }
                                 else
@@ -351,7 +354,7 @@ public class Program
 
 
                     case 7:
-
+ 
                         break;
 
 

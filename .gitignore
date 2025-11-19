@@ -11,3 +11,4 @@
 *.sln
 /CodeQuest.csproj
 /CodeQuest.sln
+.vscode/launch.json
