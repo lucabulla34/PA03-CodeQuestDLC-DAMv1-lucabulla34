@@ -77,6 +77,9 @@ public class Program
         const string MsgItemBought = "You have purchased: {0} for {1} bits. Bits remaining: {2}";
         const string MsgNotEnoughFunds = "You haven't got enough bits for this purchase.";
 
+        //6
+        const string MsgAttacks = "Available attacs for level {0}: \n";
+
         //generic
         const string MsgError = "Invalid option. Try again!";
         const string MsgProgramEnd = "Ending program.";
@@ -108,7 +111,12 @@ public class Program
         treasures = { "Empty", "Coin" },
         items = { "Iron Dagger 🗡️", "Healing Potion ⚗️", "Ancient Key 🗝️", "Crossbow 🏹", "Metal Shield 🛡️" },
         inventory = new string[items.Length];
-        ;
+        string[][] levels = new string[5][];
+        levels[0] = new string[] { "Magic Spark 💫" };
+        levels[1] = new string[] { "Fireball 🔥", "Ice Ray 🥏", "Arcane Shield ⚕️" };
+        levels[2] = new string[] { "Meteor ☄️", "Pure Energy Explosion 💥", "Minor Charm 🎭", "Air Strike 🍃" };
+        levels[3] = new string[] { "Wave of Light ⚜️", "Storm of Wings 🐦" };
+        levels[4] = new string[] { "Cataclysm 🌋", "Portal of Chaos 🌀", "Arcane Blood Pact 🩸", "Elemental Storm ⛈️" };
 
 
         wizardName = Console.ReadLine();
@@ -306,7 +314,8 @@ public class Program
                                 Console.WriteLine(MsgItemBought, items[itemBought - 1], itemsPrice[itemBought - 1], totalBits);
                                 for (int i = 0; (i < inventory.Length) && !itemAdded; i++)
                                 {
-                                    if (!itemPresent[i]) {
+                                    if (!itemPresent[i])
+                                    {
                                         itemPresent[i] = true;
                                         inventory[i] = items[itemBought - 1];
                                         itemAdded = true;
@@ -323,7 +332,21 @@ public class Program
 
 
                     case 6:
-
+                        Console.Write(MsgAttacks, wizardLevel);
+                        for (int i = 0; (i < levels.Length) || (wizardLevel > 5); i++)
+                        {
+                            for (int j = 0; (j < levels[i].Length) && (i == wizardLevel - 1); j++)
+                            {
+                                if (wizardLevel > 5)
+                                {
+                                    Console.Write($"- {levels[levels[i].Length - 1][j]}\n");
+                                }
+                                else
+                                {
+                                    Console.Write($"- {levels[i][j]}\n");
+                                }
+                            }
+                        }
                         break;
 
 
