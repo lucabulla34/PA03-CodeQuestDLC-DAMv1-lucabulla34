@@ -59,8 +59,67 @@ public class Program
         const string MonsterHP = "The {0} has {1} HP.";
         const string MonsterDefeated = "The {0} has been defeated.";
         const string LvlUp = "You've leveled up! You're now level {0}.";
+        const string DiceOne = """
+              ________
+             /       /|
+            /_______/ |
+            |       | |
+            |   o   | /
+            |       |/
+            '-------'
+            """; 
+        const string DiceTwo = """
+              ________
+             /       /|
+            /_______/ |
+            | o     | |
+            |       | /
+            |     o |/
+            '-------'
+            """;
+        const string DiceThree = """
+              ________
+             /       /|
+            /_______/ |
+            | o     | |
+            |   o   | /
+            |     o |/
+            '-------'
+            """;
+        const string DiceFour = """
+              ________
+             /       /|
+            /_______/ |
+            | o   o | |
+            |       | /
+            | o   o |/
+            '-------'
+            """;
+        const string DiceFive = """
+              ________
+             /       /|
+            /_______/ |
+            | o   o | |
+            |   o   | /
+            | o   o |/
+            '-------'
+            """;
+        const string DiceSix = """
+              ________
+             /       /|
+            /_______/ |
+            | o   o | |
+            | o   o | /
+            | o   o |/
+            '-------'
+            """;
 
         //3
+        const string Unexplored = "➖";
+        const string Coin = "🪙";
+        const string EmptySlot = "❌";
+        const string EmptyInvisibleSlot = "Empty";
+        const string CoinInvisibleSlot = "Coin";
         const string KeyToContinue = "Press any key to roll the dice again...";
         const string ChooseX = "Insert the X axis: ";
         const string ChooseY = "Insert the Y axis: ";
@@ -72,6 +131,13 @@ public class Program
         const string MsgEmptyInventory = "Your inventory is empty.";
 
         //5
+
+
+        const string IronDagger = "Iron Dagger 🗡️";
+        const string HealingPotion = "Healing Potion ⚗️";
+        const string AncientKey = "Ancient Key 🗝️";
+        const string Crossbow = "Crossbow 🏹";
+        const string MetalShield = "Metal Shield 🛡️";
         const string MsgShop = "You chose to buy items. \nYou have {0} bits available.\nObjecte \t\t\t\tPreu (bits)\n";
         const string MsgSelectItem = "Select the item you wish to buy (1 - 5) (0 to exit):";
         const string MsgItemBought = "You have purchased: {0} for {1} bits. Bits remaining: {2}";
@@ -79,6 +145,21 @@ public class Program
         const string InventoryFull = "Inventory full!";
 
         //6
+        const string MagicSpark = "Magic Spark 💫";
+        const string Fireball = "Fireball 🔥";
+        const string IceRay = "Ice Ray 🥏";
+        const string ArcaneShield = "Arcane Shield ⚕️";
+        const string Meteor = "Meteor ☄️";
+        const string Explosion = "Pure Energy Explosion 💥";
+        const string MinorCharm = "Minor Charm 🎭";
+        const string AirStrike = "Air Strike 🍃";
+        const string WaveOfLight = "Wave of Light ⚜️";
+        const string StormOfWings = "Storm of Wings 🐦";
+        const string Cataclysm = "Cataclysm 🌋";
+        const string PortalOfChaos = "Portal of Chaos 🌀";
+        const string ArcaneBlood = "Arcane Blood Pact 🩸";
+        const string ElementalStorm = "Elemental Storm ⛈️";
+
         const string MsgAttacks = "Available attacs for level {0}: \n";
 
         //7
@@ -121,20 +202,20 @@ public class Program
 
         bool[] itemPresent = new bool[6];
 
-
         string[] monsters = {MonsterSkeleton, MonsterForestGoblin, MonsterGreenSlime, MonsterEmberWolf,
         MonsterGiantSpider, MonsterIronGolem, MonsterLostNecromancer, MonsterAncientDragon},
-        userOutput = { "➖", "🪙", "❌" },
-        treasures = { "Empty", "Coin" },
-        items = { "Iron Dagger 🗡️", "Healing Potion ⚗️", "Ancient Key 🗝️", "Crossbow 🏹", "Metal Shield 🛡️" },
+        userOutput = { Unexplored, Coin, EmptySlot },
+        treasures = { EmptyInvisibleSlot, CoinInvisibleSlot },
+        items = { IronDagger, HealingPotion, AncientKey, Crossbow, MetalShield },
         inventory = new string[items.Length],
-        scrolls = { scrollPartOne, scrollPartTwo, scrollPartThree };
+        scrolls = { scrollPartOne, scrollPartTwo, scrollPartThree },                                       
+        dices = {DiceOne, DiceTwo, DiceThree, DiceFour, DiceFive, DiceSix };
         string[][] levels = new string[5][];
-        levels[0] = new string[] { "Magic Spark 💫" };
-        levels[1] = new string[] { "Fireball 🔥", "Ice Ray 🥏", "Arcane Shield ⚕️" };
-        levels[2] = new string[] { "Meteor ☄️", "Pure Energy Explosion 💥", "Minor Charm 🎭", "Air Strike 🍃" };
-        levels[3] = new string[] { "Wave of Light ⚜️", "Storm of Wings 🐦" };
-        levels[4] = new string[] { "Cataclysm 🌋", "Portal of Chaos 🌀", "Arcane Blood Pact 🩸", "Elemental Storm ⛈️" };
+        levels[0] = new string[] { MagicSpark };
+        levels[1] = new string[] { Fireball, IceRay, ArcaneShield};
+        levels[2] = new string[] { Meteor, Explosion, MinorCharm, AirStrike };
+        levels[3] = new string[] { WaveOfLight, StormOfWings };
+        levels[4] = new string[] { Cataclysm, PortalOfChaos, ArcaneBlood, ElementalStorm};
 
         do
         {
@@ -213,6 +294,7 @@ public class Program
 
 
                             Console.WriteLine(DiceRoll, dice);
+                            Console.WriteLine($"{dices[dice-1]}");
                             healthpoints[randomMonster] -= dice;
 
                             if (healthpoints[randomMonster] > 0)
