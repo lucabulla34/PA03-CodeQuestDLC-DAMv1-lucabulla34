@@ -332,36 +332,32 @@ public class Program
 
 
                     case 6:
-                        Console.Write(MsgAttacks, wizardLevel);
-                        for (int i = 0; (i <= levels.Length) || (wizardLevel >= 5); i++)
+
+                        int maxLevelIndex = levels.Length - 1;
+                        int targetIndex = wizardLevel - 1;
+
+                        if (targetIndex > maxLevelIndex)
                         {
-                            for (int j = 0; (j < levels[i].Length) && (i == wizardLevel - 1); j++)
-                            {                   //TENGO QUE QUITAR
-                                                //ESTA VARIABLE
-                                                //SUSTITUIRLA POR ITERADORES?????
-                                if (wizardLevel > 5)
-                                {
-                                    i = 4;
-                                    Console.Write($"- {levels[levels[i].Length - 1][j]}\n");
-                                }
-                                else
-                                {
-                                    Console.Write($"- {levels[i][j]}\n");
-                                }
-                            }
+                            targetIndex = maxLevelIndex;
                         }
-                        break;
+                        Console.Write(MsgAttacks, targetIndex + 1);
+
+                        for (int i = 0; i < levels[targetIndex].Length; i++)
+                        {
+                            Console.Write($"- {levels[targetIndex][i]}\n");
+                        }
+                break;
 
 
                     case 7:
- 
-                        break;
+
+                    break;
 
 
-                    case 0:
-                        end = true;
-                        Console.WriteLine(MsgProgramEnd);
-                        break;
+                case 0:
+                    end = true;
+                    Console.WriteLine(MsgProgramEnd);
+                    break;
                 }
             }
             else Console.WriteLine(MsgError);
