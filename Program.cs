@@ -80,6 +80,19 @@ public class Program
         //6
         const string MsgAttacks = "Available attacs for level {0}: \n";
 
+        //7
+        const string MsgAncientFound = "You found an ancient scroll with encrypted messages!";
+        const string MsgScrollIntro = "Scroll to decode: ";
+        const string MsgAction = "You must decode the following scroll:\r\n" +
+            "Choose a decoding operation:\r\n" +
+            "1. Decipher spell (remove spaces)\r\n" +
+            "2. Count magical runes (vowels)\r\n" +
+            "3. Extract secret code (numbers)\n";
+        const string MsgDeciphered = "Deciphered spell: {0}";
+        const string MsgCounted = "{0} magical runes (vowels) found";
+        const string MsgExtracted = "🔮 Decoded number: {0}";
+        const string MsgCongratulations = "Congratulations! You have successfully decoded all parts of the scroll.";
+
         //generic
         const string MsgError = "Invalid option. Try again!";
         const string MsgProgramEnd = "Ending program.";
@@ -92,25 +105,29 @@ public class Program
 
         Console.WriteLine(MsgInput);
         int poder = 1, randomHours, menu, dice, totalHours = 0, wizardLevel = 1, randomMonster, attempts = 5, yAxis, xAxis, bits,
-            totalBits = 0;
+            totalBits = 0, progress = 0, stepOne = 0, stepTwo = 0, stepThree = 0;
 
 
         bool end = false, isMenu, itemAdded = false;
 
-        string wizardName = "Name", wizardTitle = TitleOne;
-
+        string wizardName = "Name", wizardTitle = TitleOne, vowels = "aeiouAEIOU", numbers = "1234567890";
+        string scrollPartOne = "\"The 🐲 sleeps in the mountain of fire 🔥\"";
+        string scrollPartTwo = "\"Ancient magic flows through the crystal caves\"";
+        string scrollPartThree = "\"Spell: Ignis 5 🔥, Aqua 6 💧, Terra 3 🌍, Ventus 8 🌪️\"\n";
 
         int[] healthpoints = { WanderSkeletonHP, ForestGoblinHP, GreenSlimeHP, EmberWolfHP,
         GiantSpiderHP, IronGolemHP, LostNecromancerHP, AncientDragonHP}, itemsPrice = { 30, 10, 50, 40, 20 };
 
         bool[] itemPresent = new bool[6];
 
+
         string[] monsters = {MonsterSkeleton, MonsterForestGoblin, MonsterGreenSlime, MonsterEmberWolf,
         MonsterGiantSpider, MonsterIronGolem, MonsterLostNecromancer, MonsterAncientDragon},
         userOutput = { "➖", "🪙", "❌" },
         treasures = { "Empty", "Coin" },
         items = { "Iron Dagger 🗡️", "Healing Potion ⚗️", "Ancient Key 🗝️", "Crossbow 🏹", "Metal Shield 🛡️" },
-        inventory = new string[items.Length];
+        inventory = new string[items.Length],
+        scrolls = { scrollPartOne, scrollPartTwo, scrollPartThree };
         string[][] levels = new string[5][];
         levels[0] = new string[] { "Magic Spark 💫" };
         levels[1] = new string[] { "Fireball 🔥", "Ice Ray 🥏", "Arcane Shield ⚕️" };
@@ -146,7 +163,7 @@ public class Program
                             totalHours += randomHours;
                             Console.Write(MsgDays, day, wizardName, totalHours, poder);
                             Console.WriteLine();
-                        }
+                        }   
                         if (poder < 20)
                         {
                             Console.WriteLine(MsgLvlOne);
@@ -181,11 +198,11 @@ public class Program
                         int tempHP = healthpoints[randomMonster];
 
                         Console.WriteLine(MonsterAppearance, monsters[randomMonster]);
-
                         while (healthpoints[randomMonster] > 0)
                         {
-                            Console.WriteLine(MonsterHP, monsters[randomMonster], healthpoints[randomMonster]);
                             dice = rand.Next(1, 7);
+                            Console.WriteLine(MonsterHP, monsters[randomMonster], healthpoints[randomMonster]);
+
 
                             Console.WriteLine(DiceRoll, dice);
                             healthpoints[randomMonster] -= dice;
@@ -275,6 +292,8 @@ public class Program
                             }
                             else Console.WriteLine(MsgError);
                         } while (attempts > 0);
+
+                        //easter egg [6,7]????
                         break;
 
 
@@ -346,18 +365,66 @@ public class Program
                         {
                             Console.Write($"- {levels[targetIndex][i]}\n");
                         }
-                break;
+                        break;
 
 
                     case 7:
+                        int action, counter = 0;
+                        bool isAction;
+                        Console.WriteLine(MsgAncientFound);
+                        Console.Write($"{scrollPartOne}\n{scrollPartTwo}\n{scrollPartThree}\n{MsgScrollIntro}\n{MsgAction}");
+                        isAction = Int32.TryParse(Console.ReadLine(), out action);
 
-                    break;
+                        if (isAction)
+                        {
+                            switch (action)
+                            {
+                                case 1:
+                                    stepOne = 1;
+                                    Console.WriteLine(MsgDeciphered, scrolls[0].Replace(' ', '\0'));
+                                    break;
+                                case 2:
+                                    stepTwo = 1;
+                                    foreach (char caracter in scrollPartTwo)
+                                    {
+                                        if (vowels.Contains(caracter))
+                                        {
+                                            counter++;
+                                        }
+                                    }
+                                    Console.WriteLine(MsgCounted, counter);
+                                    break;
+                                case 3:
+                                    stepThree = 1;
+                                    string extractedNumbers = "";
+                                    foreach (char caracter in scrollPartThree)
+                                    {
+                                        if (numbers.Contains(caracter))
+                                        {
+                                            extractedNumbers += caracter;
+                                        }
+                                    }
+                                    Console.WriteLine(MsgExtracted, extractedNumbers);
+                                    break;
+                            }
+                        }
+                        if (!isAction || action < 1 || action > 3)
+                        {
+                            Console.WriteLine(MsgError);
+                        }
+                        progress = stepOne + stepTwo + stepThree;
+
+                        if (progress >= 3)
+                        {
+                            Console.WriteLine(MsgCongratulations);
+                        }
+                        break;
 
 
-                case 0:
-                    end = true;
-                    Console.WriteLine(MsgProgramEnd);
-                    break;
+                    case 0:
+                        end = true;
+                        Console.WriteLine(MsgProgramEnd);
+                        break;
                 }
             }
             else Console.WriteLine(MsgError);
