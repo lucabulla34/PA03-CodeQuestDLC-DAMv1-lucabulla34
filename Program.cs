@@ -76,6 +76,7 @@ public class Program
         const string MsgSelectItem = "Select the item you wish to buy (1 - 5) (0 to exit):";
         const string MsgItemBought = "You have purchased: {0} for {1} bits. Bits remaining: {2}";
         const string MsgNotEnoughFunds = "You haven't got enough bits for this purchase.";
+        const string InventoryFull = "Inventory full!";
 
         //6
         const string MsgAttacks = "Available attacs for level {0}: \n";
@@ -94,6 +95,7 @@ public class Program
         const string MsgCongratulations = "Congratulations! You have successfully decoded all parts of the scroll.";
 
         //generic
+        const string MsgNull = "Wizard name can't be empty. Try again!";
         const string MsgError = "Invalid option. Try again!";
         const string MsgProgramEnd = "Ending program.";
 
@@ -103,7 +105,6 @@ public class Program
 
 
 
-        Console.WriteLine(MsgInput);
         int poder = 1, randomHours, menu, dice, totalHours = 0, wizardLevel = 1, randomMonster, attempts = 5, yAxis, xAxis, bits,
             totalBits = 0, progress = 0, stepOne = 0, stepTwo = 0, stepThree = 0;
 
@@ -135,8 +136,15 @@ public class Program
         levels[3] = new string[] { "Wave of Light ⚜️", "Storm of Wings 🐦" };
         levels[4] = new string[] { "Cataclysm 🌋", "Portal of Chaos 🌀", "Arcane Blood Pact 🩸", "Elemental Storm ⛈️" };
 
-
-        wizardName = Console.ReadLine();
+        do
+        {
+            Console.WriteLine(MsgInput);
+            wizardName = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(wizardName))
+            {
+                Console.WriteLine(MsgNull);
+            }
+        } while (string.IsNullOrWhiteSpace(wizardName));
         wizardName = wizardName.Substring(0, 1).ToUpper() + wizardName.Substring(1, wizardName.Length - 1).ToLower(); // This will properly capitalize the message, no matter how it's written.
         while (!end)
         {
@@ -163,7 +171,7 @@ public class Program
                             totalHours += randomHours;
                             Console.Write(MsgDays, day, wizardName, totalHours, poder);
                             Console.WriteLine();
-                        }   
+                        }
                         if (poder < 20)
                         {
                             Console.WriteLine(MsgLvlOne);
@@ -292,8 +300,6 @@ public class Program
                             }
                             else Console.WriteLine(MsgError);
                         } while (attempts > 0);
-
-                        //easter egg [6,7]????
                         break;
 
 
@@ -315,7 +321,7 @@ public class Program
 
 
                     case 5:
-                        int itemBought;
+                        int itemBought, itemCounter = 0;
                         bool isValid;
                         itemAdded = false;
                         Console.WriteLine(MsgShop, totalBits);
@@ -325,9 +331,16 @@ public class Program
                         }
                         Console.WriteLine(MsgSelectItem);
                         isValid = Int32.TryParse(Console.ReadLine(), out itemBought);
-                        if (isValid && itemBought < 6)
+                        if (isValid && itemBought < 6 && itemBought > 0)
                         {
-                            if (totalBits - itemsPrice[itemBought - 1] >= 0) // User can buy the item
+                            for (int i = 0; i < inventory.Length; i++)
+                            {
+                                if (inventory[i] != null)
+                                {
+                                    itemCounter++;
+                                }
+                            }
+                            if ((totalBits - itemsPrice[itemBought - 1] >= 0) && itemCounter < 5) // User can buy the item
                             {
                                 totalBits = totalBits - itemsPrice[itemBought - 1];
                                 Console.WriteLine(MsgItemBought, items[itemBought - 1], itemsPrice[itemBought - 1], totalBits);
@@ -341,9 +354,13 @@ public class Program
                                     }
                                 }
                             }
+                            else if (itemCounter == 5)
+                            {
+                                Console.WriteLine(InventoryFull);
+                            }
                             else Console.WriteLine(MsgNotEnoughFunds);
                         }
-                        if (!isValid)
+                        if (!isValid || itemBought < 1 || itemBought > 5)
                         {
                             Console.WriteLine(MsgError);
                         }
