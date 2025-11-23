@@ -342,7 +342,7 @@ public class Program
                             }
                             if ((totalBits - itemsPrice[itemBought - 1] >= 0) && itemCounter < 5) // User can buy the item
                             {
-                                totalBits = totalBits - itemsPrice[itemBought - 1];
+                                totalBits -= itemsPrice[itemBought - 1];
                                 Console.WriteLine(MsgItemBought, items[itemBought - 1], itemsPrice[itemBought - 1], totalBits);
                                 for (int i = 0; (i < inventory.Length) && !itemAdded; i++)
                                 {
