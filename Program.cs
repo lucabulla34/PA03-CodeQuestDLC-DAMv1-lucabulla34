@@ -331,8 +331,12 @@ public class Program
                             else if (healthpoints[randomMonster] <= 0)
                             {
                                 Console.WriteLine(MonsterDefeated, monsters[randomMonster]);
-                                wizardLevel++;
                                 Console.WriteLine(LvlUp, wizardLevel);
+
+                                if (wizardLevel < 5)
+                                {
+                                    wizardLevel++; // Prevents wizard from leveling further than level 5. This will be redundant in chapter 6's mechanics.
+                                }
                             }
                         }
 
