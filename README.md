@@ -161,5 +161,5 @@ Este caso verifica una entrada correcta que permite entrar al juego.
 ### Case 0: Exit Game 👋
 
   * Terminates the program gracefully.
-
-*Content initially generated with Google's Gemini 3 Pro AI, but completely reforged.
+> [!WARNING]
+> Content initially generated with Google's Gemini 3 Pro AI, but completely reforged by hand.
