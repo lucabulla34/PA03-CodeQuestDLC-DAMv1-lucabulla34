@@ -36,8 +36,7 @@ Because the checks are sequential, we do not need to check the lower bound in ev
 * *Example:* If the check reaches `power < 30`, we implicitly know `power` is already `>= 20`, because the previous `if (power < 20)` returned `false`.
 
 ### **Test Case 1: Limit Case (Lower Bound - Min Luck)** 📉
-Simula que el `rand` siempre devuelve el valor mínimo (1 punto de poder, 0 horas). Verifica que el condicional más bajo (`< 20`) funcione.
-*Estado Inicial: `power` = 1, `totalHours` = 0*
+*Initial State: `power` = 1, `totalHours` = 0*
 
 | # Instruction | # Iteration | Variables | Condition / Output |
 | :--- | :--- | :--- | :--- |
@@ -52,8 +51,7 @@ Simula que el `rand` siempre devuelve el valor mínimo (1 punto de poder, 0 hora
 ---
 
 ### **Test Case 2: Limit Case (Upper Bound - Max Luck)** 📈
-Simula que el `rand` siempre devuelve el valor máximo posible (10 puntos de poder, 24 horas). Verifica que se alcance el condicional más alto (`>= 40`).
-*Estado Inicial: `power` = 1, `totalHours` = 0*
+*Initial State: `power` = 1, `totalHours` = 0*
 
 | # Instruction | # Iteration | Variables | Condition / Output |
 | :--- | :--- | :--- | :--- |
@@ -70,8 +68,7 @@ Simula que el `rand` siempre devuelve el valor máximo posible (10 puntos de pod
 ---
 
 ### **Test Case 3: Normal Case (Average Luck)** ✅
-Simula un escenario promedio (ej. 5 puntos de poder por día). Verifica un condicional intermedio.
-*Estado Inicial: `power` = 1, `totalHours` = 0*
+*Initial State: `power` = 1, `totalHours` = 0*
 
 | # Instruction | # Iteration | Variables | Condition / Output |
 | :--- | :--- | :--- | :--- |
