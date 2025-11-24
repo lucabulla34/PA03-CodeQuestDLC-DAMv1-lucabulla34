@@ -1,4 +1,4 @@
-# Chapter 7: Decode Ancient Scroll - Logic Breakdown 📜
+# Chapter 7: Decode Ancient Scroll - Logic Breakdown
 
 This section is a logic puzzle mini-game. It presents the user with three specific string manipulation tasks. The player must choose an operation to perform on specific parts of the "scroll" text. Progress is tracked via flags (`stepOne`, `stepTwo`, `stepThree`) to determine when the puzzle is fully solved.
 
@@ -18,7 +18,7 @@ This section is a logic puzzle mini-game. It presents the user with three specif
 
 ## B. Test Cases
 
-### **Test Case 1: Normal Case (Task 2 - Vowel Counting)** 🔢
+### **Test Case 1: Normal Case (Task 2 - Vowel Counting)**
 **Scenario:** The user selects Option 2 to count the vowels in the provided text.
 *Initial State:* `ScrollPartTwo` = "Ancient magic", `vowels` = "aeiouAEIOU", `counter` = 0.
 
@@ -32,7 +32,7 @@ This section is a logic puzzle mini-game. It presents the user with three specif
 | **6** (Output) | - | `counter` | **Output:** "2 magical runes (vowels) found" |
 | **7** (Flag) | - | `stepTwo` | Set to **1**. |
 
-### **Test Case 2: Limit Case (Puzzle Completion)** 🏆
+### **Test Case 2: Limit Case (Puzzle Completion)**
 **Scenario:** The user has already completed tasks 1 and 2. They now select task 3 to finish the game. This tests the summation logic.
 *Initial State:* `stepOne` = 1, `stepTwo` = 1, `stepThree` = 0, `action` = 3.
 
@@ -45,7 +45,7 @@ This section is a logic puzzle mini-game. It presents the user with three specif
 | **5** (Win Check) | `progress` >= 3 | 3 >= 3 $\rightarrow$ **TRUE** |
 | **6** (Output) | - | **Output:** "Congratulations! You have successfully decoded..." |
 
-### **Test Case 3: Error Case (Out of Range Input)** 🚫
+### **Test Case 3: Error Case (Out of Range Input)**
 **Scenario:** The user enters the number "5". While it is a valid integer (so `isAction` is true), it is not a valid menu option.
 *Initial State:* `action` = 0, `isAction` = false.
 
