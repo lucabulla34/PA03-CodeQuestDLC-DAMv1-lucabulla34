@@ -4,7 +4,7 @@ public class Program
 {
     public static void Main()
     {
-        Console.OutputEncoding = System.Text.Encoding.UTF8; // Solución para que la consola muestre los emojis
+        Console.OutputEncoding = System.Text.Encoding.UTF8; // Solution to see emojis in the console.
         Console.InputEncoding = System.Text.Encoding.UTF8;
         Random rand = new Random();
         const int ROWS = 5, COLS = 5;
@@ -32,7 +32,7 @@ public class Program
         const string MsgInput = "Hi! Input your wizard's name: ";
 
         //1
-        const string MsgDays = "day {0} -> {1}, ja has meditat {2} hores i el teu poder ara és de {3} punts.";
+        const string MsgDays = "Day {0}: {1}, you have trained for a total of {2} hours and gained {3} power points.";
         const string MsgLvlOne = "Repeteixes a segona convocatoria.";
         const string MsgLvlTwo = "Encara confons la vara amb una cullera.";
         const string MsgLvlThree = "Ets un invocador de brises màgiques.";
@@ -67,7 +67,7 @@ public class Program
             |   o   | /
             |       |/
             '-------'
-            """; 
+            """;
         const string DiceTwo = """
               ________
              /       /|
@@ -115,6 +115,7 @@ public class Program
             """;
 
         //3
+        const string MineHeader = "\t 0\t 1\t 2\t 3\t 4";
         const string Unexplored = "➖";
         const string Coin = "🪙";
         const string EmptySlot = "❌";
@@ -138,11 +139,10 @@ public class Program
         const string AncientKey = "Ancient Key 🗝️";
         const string Crossbow = "Crossbow 🏹";
         const string MetalShield = "Metal Shield 🛡️";
-        const string MsgShop = "You chose to buy items. \nYou have {0} bits available.\nObjecte \t\t\t\tPreu (bits)\n";
+        const string MsgShop = "You chose to buy items. \nYou have {0} bits available.\nObject \t\t\t\t\tPrice (bits)\n";
         const string MsgSelectItem = "Select the item you wish to buy (1 - 5) (0 to exit):";
         const string MsgItemBought = "You have purchased: {0} for {1} bits. Bits remaining: {2}";
         const string MsgNotEnoughFunds = "You haven't got enough bits for this purchase.";
-        const string InventoryFull = "Inventory full!";
 
         //6
         const string MagicSpark = "Magic Spark 💫";
@@ -165,6 +165,9 @@ public class Program
         //7
         const string MsgAncientFound = "You found an ancient scroll with encrypted messages!";
         const string MsgScrollIntro = "Scroll to decode: ";
+        const string ScrollPartOne = "\"The 🐲 sleeps in the mountain of fire 🔥\"";
+        const string ScrollPartTwo = "\"Ancient magic flows through the crystal caves\"";
+        const string ScrollPartThree = "\"Spell: Ignis 5 🔥, Aqua 6 💧, Terra 3 🌍, Ventus 8 🌪️\"\n";
         const string MsgAction = "You must decode the following scroll:\r\n" +
             "Choose a decoding operation:\r\n" +
             "1. Decipher spell (remove spaces)\r\n" +
@@ -176,7 +179,7 @@ public class Program
         const string MsgCongratulations = "Congratulations! You have successfully decoded all parts of the scroll.";
 
         //generic
-        const string MsgNull = "Wizard name can't be empty. Try again!";
+        const string MsgNull = "Value can't be empty. Try again!";
         const string MsgError = "Invalid option. Try again!";
         const string MsgProgramEnd = "Ending program.";
 
@@ -186,48 +189,46 @@ public class Program
 
 
 
-        int poder = 1, randomHours, menu, dice, totalHours = 0, wizardLevel = 1, randomMonster, attempts = 5, yAxis, xAxis, bits,
-            totalBits = 0, progress = 0, stepOne = 0, stepTwo = 0, stepThree = 0;
+        int power = 1, randomHours, op = -1, dice, totalHours = 0, wizardLevel = 1, randomMonster, attempts, yAxis, xAxis, bits,
+            totalBits = 0, progress, stepOne = 0, stepTwo = 0, stepThree = 0;
 
 
-        bool end = false, isMenu, itemAdded = false;
+        bool isOp, isValidSelection;
 
-        string wizardName = "Name", wizardTitle = TitleOne, vowels = "aeiouAEIOU", numbers = "1234567890";
-        string scrollPartOne = "\"The 🐲 sleeps in the mountain of fire 🔥\"";
-        string scrollPartTwo = "\"Ancient magic flows through the crystal caves\"";
-        string scrollPartThree = "\"Spell: Ignis 5 🔥, Aqua 6 💧, Terra 3 🌍, Ventus 8 🌪️\"\n";
+        string opString, wizardName, wizardTitle = TitleOne, vowels = "aeiouAEIOU", numbers = "1234567890";
+
 
         int[] healthpoints = { WanderSkeletonHP, ForestGoblinHP, GreenSlimeHP, EmberWolfHP,
         GiantSpiderHP, IronGolemHP, LostNecromancerHP, AncientDragonHP}, itemsPrice = { 30, 10, 50, 40, 20 };
 
-        bool[] itemPresent = new bool[6];
+        bool[] itemOnIndex = new bool[6];
 
         string[] monsters = {MonsterSkeleton, MonsterForestGoblin, MonsterGreenSlime, MonsterEmberWolf,
         MonsterGiantSpider, MonsterIronGolem, MonsterLostNecromancer, MonsterAncientDragon},
         userOutput = { Unexplored, Coin, EmptySlot },
         treasures = { EmptyInvisibleSlot, CoinInvisibleSlot },
-        items = { IronDagger, HealingPotion, AncientKey, Crossbow, MetalShield },
-        inventory = new string[items.Length],
-        scrolls = { scrollPartOne, scrollPartTwo, scrollPartThree },                                       
-        dices = {DiceOne, DiceTwo, DiceThree, DiceFour, DiceFive, DiceSix };
+        itemsForSale = { IronDagger, HealingPotion, AncientKey, Crossbow, MetalShield },
+        inventory = new string[0],
+        scrolls = { ScrollPartOne, ScrollPartTwo, ScrollPartThree },
+        dices = { DiceOne, DiceTwo, DiceThree, DiceFour, DiceFive, DiceSix };
         string[][] levels = new string[5][];
         levels[0] = new string[] { MagicSpark };
-        levels[1] = new string[] { Fireball, IceRay, ArcaneShield};
+        levels[1] = new string[] { Fireball, IceRay, ArcaneShield };
         levels[2] = new string[] { Meteor, Explosion, MinorCharm, AirStrike };
         levels[3] = new string[] { WaveOfLight, StormOfWings };
-        levels[4] = new string[] { Cataclysm, PortalOfChaos, ArcaneBlood, ElementalStorm};
+        levels[4] = new string[] { Cataclysm, PortalOfChaos, ArcaneBlood, ElementalStorm };
 
         do
         {
             Console.WriteLine(MsgInput);
-            wizardName = Console.ReadLine();
+            wizardName = Console.ReadLine()!; // The exclamation point is used to tell the System that it won't be null, and in case it's null, it will repeat.
             if (string.IsNullOrWhiteSpace(wizardName))
             {
                 Console.WriteLine(MsgNull);
             }
         } while (string.IsNullOrWhiteSpace(wizardName));
         wizardName = wizardName.Substring(0, 1).ToUpper() + wizardName.Substring(1, wizardName.Length - 1).ToLower(); // This will properly capitalize the message, no matter how it's written.
-        while (!end)
+        do
         {
             if (wizardName != "")
             {
@@ -235,12 +236,35 @@ public class Program
             }
             else Console.WriteLine(MsgMenu);
 
-            isMenu = Int32.TryParse(Console.ReadLine(), out menu);
 
-            if (isMenu && menu < 8)
+            do
+            {
+                opString = Console.ReadLine()!;
+
+                if (string.IsNullOrWhiteSpace(opString))
+                {
+                    Console.WriteLine(MsgNull);
+                    isValidSelection = false;
+                }
+                else
+                {
+                    isOp = Int32.TryParse(opString, out op);
+
+                    if (isOp && op >= 0 && op < 8)
+                    {
+                        isValidSelection = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine(MsgError);
+                        isValidSelection = false;
+                    }
+                }
+            } while (!isValidSelection);
+            if (isValidSelection && op < 8 && op >= 0)
             {
 
-                switch (menu)
+                switch (op)
                 {
                     case 1:
 
@@ -248,36 +272,36 @@ public class Program
                         for (int day = 1; day <= 5; day++)
                         {
                             randomHours = rand.Next(0, 25);
-                            poder += rand.Next(1, 11);
+                            power += rand.Next(1, 11);
                             totalHours += randomHours;
-                            Console.Write(MsgDays, day, wizardName, totalHours, poder);
+                            Console.Write(MsgDays, day, wizardName, totalHours, power);
                             Console.WriteLine();
                         }
-                        if (poder < 20)
+                        if (power < 20)
                         {
                             Console.WriteLine(MsgLvlOne);
                             wizardTitle = TitleOne;
                         }
-                        else if (poder >= 20 && poder < 30)
+                        else if (power >= 20 && power < 30)
                         {
                             Console.WriteLine(MsgLvlTwo);
                             wizardTitle = TitleTwo;
                         }
-                        else if (poder >= 30 && poder < 35)
+                        else if (power >= 30 && power < 35)
                         {
                             Console.WriteLine(MsgLvlThree);
                             wizardTitle = TitleThree;
                         }
-                        else if (poder >= 35 && poder < 40)
+                        else if (power >= 35 && power < 40)
                         {
                             Console.WriteLine(MsgLvlFour);
                             wizardTitle = TitleFour;
                         }
-                        else if (poder >= 40)
+                        else if (power >= 40)
                         {
                             Console.WriteLine(MsgLvlFive);
                             wizardTitle = TitleFive;
-                            Console.WriteLine(TrainingComplete, wizardName, poder, wizardTitle);
+                            Console.WriteLine(TrainingComplete, wizardName, power, wizardTitle);
                         }
                         break;
 
@@ -294,7 +318,7 @@ public class Program
 
 
                             Console.WriteLine(DiceRoll, dice);
-                            Console.WriteLine($"{dices[dice-1]}");
+                            Console.WriteLine($"{dices[dice - 1]}");
                             healthpoints[randomMonster] -= dice;
 
                             if (healthpoints[randomMonster] > 0)
@@ -319,15 +343,15 @@ public class Program
 
                     case 3:
                         attempts = 5;
-                        string[,] invisibleMap = new string[ROWS, COLS], userMap = new string[ROWS, COLS];
-                        Console.WriteLine("0 1 2 3 4");
-                        for (int i = 0; i < invisibleMap.GetLength(0); i++)
+                        string[,] mineFilled = new string[ROWS, COLS], mineUser = new string[ROWS, COLS];
+                        Console.WriteLine(MineHeader);
+                        for (int i = 0; i < mineFilled.GetLength(0); i++)
                         {
                             Console.Write(i);
-                            for (int j = 0; j < invisibleMap.GetLength(1); j++)
+                            for (int j = 0; j < mineFilled.GetLength(1); j++)
                             {
-                                invisibleMap[i, j] = treasures[rand.Next(0, treasures.Length)];
-                                Console.Write($"{userOutput[0]} ");
+                                mineFilled[i, j] = treasures[rand.Next(0, treasures.Length)];
+                                Console.Write($"\t{userOutput[0]}");
                             }
                             Console.WriteLine();
                         }
@@ -337,42 +361,42 @@ public class Program
                             Console.Write($"{ChooseX} \n");
                             bool isAxis = Int32.TryParse(Console.ReadLine(), out xAxis);
 
-                            if (isAxis && xAxis < 5)
+                            if (isAxis && xAxis < ROWS && xAxis >= 0)
                             {
                                 Console.Write($"{ChooseY} \n");
                                 isAxis = Int32.TryParse(Console.ReadLine(), out yAxis);
-                                if (isAxis && yAxis < 5)
+                                if (isAxis && yAxis < COLS && yAxis >= 0)
                                 {
-                                    if (invisibleMap[xAxis, yAxis] == treasures[1])
+                                    if (mineFilled[xAxis, yAxis] == treasures[1])
                                     {
                                         bits = rand.Next(5, 51);
                                         totalBits += bits;
-                                        userMap[xAxis, yAxis] = userOutput[1];
+                                        mineUser[xAxis, yAxis] = userOutput[1];
                                         attempts--;
                                         Console.WriteLine(MsgCoinFound, xAxis, yAxis, bits, attempts);
-                                        invisibleMap[xAxis, yAxis] = treasures[0]; // This line prevents the same spot from being exploited twice.
+                                        mineFilled[xAxis, yAxis] = treasures[0]; // This line prevents the same spot from being exploited twice.
                                     }
-                                    else if (invisibleMap[xAxis, yAxis] == treasures[0])
+                                    else if (mineFilled[xAxis, yAxis] == treasures[0])
                                     {
-                                        userMap[xAxis, yAxis] = userOutput[2];
+                                        mineUser[xAxis, yAxis] = userOutput[2];
                                         attempts--;
                                         Console.WriteLine(MsgNotFound, xAxis, yAxis, attempts);
                                     }
-                                    Console.WriteLine("0 1 2 3 4");
-                                    for (int i = 0; i < invisibleMap.GetLength(0); i++)
+                                    Console.WriteLine(MineHeader);
+                                    for (int i = 0; i < mineFilled.GetLength(0); i++)
                                     {
                                         Console.Write(i);
-                                        for (int j = 0; j < invisibleMap.GetLength(1); j++)
+                                        for (int j = 0; j < mineFilled.GetLength(1); j++)
                                         {
-                                            if (userMap[i, j] == userOutput[1])
+                                            if (mineUser[i, j] == userOutput[1])
                                             {
-                                                Console.Write($"{userOutput[1]} ");
+                                                Console.Write($"\t{userOutput[1]} ");
                                             }
-                                            else if (userMap[i, j] == userOutput[2])
+                                            else if (mineUser[i, j] == userOutput[2])
                                             {
-                                                Console.Write($"{userOutput[2]} ");
+                                                Console.Write($"\t{userOutput[2]} ");
                                             }
-                                            else Console.Write($"{userOutput[0]} ");
+                                            else Console.Write($"\t{userOutput[0]} ");
                                         }
                                         Console.WriteLine();
 
@@ -386,14 +410,14 @@ public class Program
 
 
                     case 4:
-                        Console.Write(MsgInventoryContains);
-
-                        if (inventory[0] == null)
+                        if (inventory.Length == 0)
                         {
                             Console.WriteLine(MsgEmptyInventory);
                         }
                         else
                         {
+                            Console.Write(MsgInventoryContains);
+
                             for (int i = 0; i < inventory.Length; i++)
                             {
                                 Console.WriteLine($"{inventory[i]}"); //Adds the items bought in the shop to current inventory.
@@ -403,42 +427,31 @@ public class Program
 
 
                     case 5:
-                        int itemBought, itemCounter = 0;
+                        int itemBought;
                         bool isValid;
-                        itemAdded = false;
+
+
                         Console.WriteLine(MsgShop, totalBits);
-                        for (int i = 0; i < items.Length; i++)
+                        for (int i = 0; i < itemsForSale.Length; i++)
                         {
-                            Console.Write($"{items[i]}     \t\t\t\t{itemsPrice[i]}\n");
+                            Console.Write($"{itemsForSale[i]}     \t\t\t\t{itemsPrice[i]}\n");
                         }
                         Console.WriteLine(MsgSelectItem);
                         isValid = Int32.TryParse(Console.ReadLine(), out itemBought);
                         if (isValid && itemBought < 6 && itemBought > 0)
                         {
-                            for (int i = 0; i < inventory.Length; i++)
-                            {
-                                if (inventory[i] != null)
-                                {
-                                    itemCounter++;
-                                }
-                            }
-                            if ((totalBits - itemsPrice[itemBought - 1] >= 0) && itemCounter < 5) // User can buy the item
+                            if (totalBits - itemsPrice[itemBought - 1] >= 0) // User can buy the item
                             {
                                 totalBits = totalBits - itemsPrice[itemBought - 1];
-                                Console.WriteLine(MsgItemBought, items[itemBought - 1], itemsPrice[itemBought - 1], totalBits);
-                                for (int i = 0; (i < inventory.Length) && !itemAdded; i++)
+                                string newItem = itemsForSale[itemBought - 1];
+                                string[] tempInventory = new string[inventory.Length + 1]; //Create a new temporal array 
+                                for (int i = 0; i < inventory.Length; i++)
                                 {
-                                    if (!itemPresent[i])
-                                    {
-                                        itemPresent[i] = true;
-                                        inventory[i] = items[itemBought - 1];
-                                        itemAdded = true;
-                                    }
+                                    tempInventory[i] = inventory[i];
                                 }
-                            }
-                            else if (itemCounter == 5)
-                            {
-                                Console.WriteLine(InventoryFull);
+                                tempInventory[tempInventory.Length - 1] = newItem;
+                                inventory = tempInventory;
+                                Console.WriteLine(MsgItemBought, itemsForSale[itemBought - 1], itemsPrice[itemBought - 1], totalBits);
                             }
                             else Console.WriteLine(MsgNotEnoughFunds);
                         }
@@ -471,7 +484,7 @@ public class Program
                         int action, counter = 0;
                         bool isAction;
                         Console.WriteLine(MsgAncientFound);
-                        Console.Write($"{scrollPartOne}\n{scrollPartTwo}\n{scrollPartThree}\n{MsgScrollIntro}\n{MsgAction}");
+                        Console.Write($"{ScrollPartOne}\n{ScrollPartTwo}\n{ScrollPartThree}\n{MsgScrollIntro}\n{MsgAction}");
                         isAction = Int32.TryParse(Console.ReadLine(), out action);
 
                         if (isAction)
@@ -484,9 +497,9 @@ public class Program
                                     break;
                                 case 2:
                                     stepTwo = 1;
-                                    foreach (char caracter in scrollPartTwo)
+                                    foreach (char character in ScrollPartTwo)
                                     {
-                                        if (vowels.Contains(caracter))
+                                        if (vowels.Contains(character))
                                         {
                                             counter++;
                                         }
@@ -496,7 +509,7 @@ public class Program
                                 case 3:
                                     stepThree = 1;
                                     string extractedNumbers = "";
-                                    foreach (char caracter in scrollPartThree)
+                                    foreach (char caracter in ScrollPartThree)
                                     {
                                         if (numbers.Contains(caracter))
                                         {
@@ -521,12 +534,11 @@ public class Program
 
 
                     case 0:
-                        end = true;
                         Console.WriteLine(MsgProgramEnd);
                         break;
                 }
             }
             else Console.WriteLine(MsgError);
-        }
+        } while (op != 0);
     }
 }
