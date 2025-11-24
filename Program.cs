@@ -473,7 +473,7 @@ public class Program
 
                         if (targetIndex > maxLevelIndex)
                         {
-                            targetIndex = maxLevelIndex;
+                            targetIndex = maxLevelIndex; //This would enable the wizard to see level 5's attacks even though they've gone further than level 5. This is now redundant, since max level is 5, but I'll keep it for possible updates.
                         }
                         Console.Write(MsgAttacks, targetIndex + 1);
 
