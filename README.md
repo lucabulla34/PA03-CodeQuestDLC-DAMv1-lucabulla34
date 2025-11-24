@@ -100,7 +100,7 @@ This case verifies the upper limit of the allowed range (0-7). The number is 7, 
 | **3** (TryParse) | - | `op`=7, `isOp`=True | Conversion Successful? $\rightarrow$ **TRUE** |
 | **4** (Range Check) | 1 | `isValidSelection`=True | `op` >= 0 && `op` < 8? $\rightarrow$ **TRUE** |
 | **5** (While Loop) | - | `isValidSelection`=True | !isValidSelection $\rightarrow$ **FALSE** (Exit Loop) |
-| **6** (Switch) | - | `op`=7 | **Action:** Enter "Case 1: Train your wizard" |
+| **6** (Switch) | - | `op`=7 | **Action:** Enter "Case 7: Decode Ancient Scroll" |
 ---
 
 ### **Test Case 3: Normal Case (Input = "1")** ✅
