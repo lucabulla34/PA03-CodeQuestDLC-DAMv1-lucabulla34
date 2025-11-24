@@ -14,7 +14,7 @@ In this README.md, I will be explaining and ellaborating on its features.
 4. [Chapter 4: Show Inventory](#chapter4)
 5. [Chapter 5: Buy Items](#chapter5)
 6. [Chapter 6: Show Attacks ](#chapter6)
-7. [Chapter 7: ](#chapter7)
+7. [Chapter 7: Decode Ancient Scroll](#chapter7)
 
 
 -----
